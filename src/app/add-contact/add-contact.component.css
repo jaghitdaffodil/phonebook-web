@@ -1,0 +1,38 @@
+.required-star {
+  color: red;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 5rem;
+  margin: 1rem 0;
+}
+.image-preview img {
+  height: 100%;
+  border-radius: 50%;
+  margin-left: 140px;
+  height: 100px;
+  margin-top: -30px;
+}
+.onImageUpload {
+  margin-left: -25px;
+  position: absolute;
+  margin-top: 90px;
+}
+.displayButton {
+  margin-left: -75px;
+}
+
+.file-upload-link {
+  width: 92px;
+  margin: auto;
+}
+
+.file-upload-link .file-upload-link-text {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
