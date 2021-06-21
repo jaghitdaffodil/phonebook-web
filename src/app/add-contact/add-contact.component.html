@@ -1,0 +1,70 @@
+<form [formGroup]="addContact" (ngSubmit)="onAddContact()">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{isEditModal?'Edit Contact':'Add Contact'}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="addModal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div style="height: 28rem;overflow-y: scroll;" class="modal-body">
+    <div class="form-group">
+
+      <div>
+        <input type="file" #filePicker (change)="uploadImage($event) ">
+        <button *ngIf="imagePreview !=='' && imagePreview" [ngClass]="imagePreview?'onImageUpload':'displayButton'"
+          class="btn btn-primary" type="button" (click)="filePicker.click()"><i (click)="filePicker.click()"
+            class="fas fa-pencil-alt"></i></button>
+        <br />
+        <div class="file-upload-link">
+          <a class="file-upload-link-text" *ngIf="!imagePreview" (click)="filePicker.click()">{{'Upload Profile'}}</a>
+        </div>
+      </div>
+
+      <div class="image-preview" *ngIf="imagePreview !=='' && imagePreview">
+        <img [src]="imagePreview"
+          onerror='this.src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"'>
+      </div>
+
+    </div>
+
+    <div class="form-group">
+      <label> First Name</label><span class="required-star">*</span>
+      <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName"
+        placeholder="(only alphabets)">
+    </div>
+
+    <div class="form-group">
+      <label> Last Name</label><span class="required-star">*</span>
+      <input type="text" class="form-control" id="lastName" name="lastName" formControlName="lastName"
+        placeholder="(only alphabets)">
+    </div>
+
+    <div class="form-group">
+      <label> Nick Name</label>
+      <input type="text" class="form-control" id="nickName" name="nickName" formControlName="nickName">
+    </div>
+
+    <div class="form-group">
+      <label> Address </label>
+      <input type="text" class="form-control" id="address" name="address" formControlName="address">
+    </div>
+
+    <div class="form-group">
+      <label> Phone Number </label><span class="required-star">*</span>
+      <button type="button" class="btn btn-secondary btn-sm m-2" (click)="addPhoneNumber()"><i
+          class="fa fa-plus"></i></button>
+
+      <div formArrayName="phoneNumbers" *ngFor="let phone of phoneNumbers.controls; let i=index">
+        <div class="input-group mb-3">
+          <input type="tel" class="form-control my-1" [formControlName]="i" placeholder="(only numbers)">
+          <div class="input-group-append">
+            <button type="button" *ngIf="phoneNumbers.length>1" class="btn btn-secondary btn-sm m-2"
+              (click)="deletePhoneNumber(i)"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button ngbAutofocus type="submit" class="btn btn-success" [disabled]='!addContact.valid'>Save</button>
+  </div>
+</form>

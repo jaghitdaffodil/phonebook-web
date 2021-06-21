@@ -1,0 +1,79 @@
+<div style="padding:15px" class="container">
+    <div class="col-md-12">
+        <!--begin:: Widgets/User Progress -->
+        <div class="m-portlet m-portlet--full-height ">
+            <div style="background-color: #EEE; border: blue 1px solid;" class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <h3 class="m-portlet__head-text">
+                            Contacts
+                        </h3>
+
+                        <div style="margin-top: 25px;">
+                            <input placeholder="Search" style="margin-left: 450px; height: 35px; width: 320px;"
+                                type="text" [(ngModel)]="search" (keyup)="searchContact()">
+                        </div>
+                        <button style="margin-left: 785px;
+                            margin-top: -58px;
+                            width: 140px;
+                            height: 35px;" type="button" class="btn btn-primary" (click)="open(addProduct)"><span
+                                class="fa fa-user-plus"></span> {{'Add Contact'}}</button>
+                    </div>
+
+                </div>
+
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            &nbsp;&nbsp;
+                            {{ 'Profile Picture' }}
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{ 'Name & Address' }}
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <div style="height: 54vh;
+                overflow-y: auto; flex: none;" infinite-scroll [infiniteScrollDistance]="scrollDistance"
+                [infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle" [scrollWindow]="false"
+                (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()" class="m-portlet__body">
+                <div class="tab-content">
+                    <div *ngFor="let contact of contactList" class="tab-pane active" id="m_widget4_tab1_content">
+                        <div class="m-widget4 m-widget4--progress ">
+                            <div class="m-widget4__item" style="border-bottom: 1px solid grey; height: 10px;">
+                                <div class="m-widget4__img m-widget4__img--pic">
+                                    <img src="{{baseUrl}}/profile-image/{{contact.id}}?t={{currentTimestamp}}"
+                                        onerror='this.src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"'
+                                        alt="">
+                                </div>
+                                <div class="m-widget4__info">
+                                    <span class="m-widget4__title">
+                                        <a href="#" style="text-decoration: none;"
+                                            (click)="open(viewProduct,contact.id)">{{
+                                            contact.nickname?contact.nickname:contact.name }}</a>
+                                    </span>
+                                    <br>
+                                    <span class="m-widget4__sub">
+                                        {{ contact?.address }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end:: Widgets/User Progress -->
+    </div>
+</div>
+
+<ng-template #viewProduct let-modal>
+    <app-view-contact [modal]="modal" [contact]="contactId" (onEditClicked)="EditClicked($event)"
+        (refreshContacts1)="getContactList()"></app-view-contact>
+</ng-template>
+<ng-template #addProduct let-modal>
+    <app-add-contact [modal]="modal" [_isEditModal]="isEditModal" [contact]="contactId"
+        (refreshContacts)="getContactList()"></app-add-contact>
+</ng-template>
